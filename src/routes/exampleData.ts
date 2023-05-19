@@ -117,8 +117,7 @@ export const exampleData: Payment[] = [
             id: 6,
             status: "Returned",
             color: "var(--bs-danger)",
-            details:
-                "Reason: Unable to Locate Account",
+            details: "Reason: Unable to Locate Account",
         },
     },
 ];
