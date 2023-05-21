@@ -1,27 +1,29 @@
 import type { BaseColumn, Breakpoint } from "./types.js";
 
 export function getMaxBreakpoint(cols: BaseColumn[]): Breakpoint | undefined {
-    let maxBreakpoint = undefined;
+    const breakpoints = ["sm", "md", "lg", "xl", "xxl", "xxxl"];
+    const lastIndex = breakpoints.length - 1;
+    let maxBreakpointIndex = -1;
+    let maxColumn = null;
 
     for (const o of cols) {
-        if (o.breakpoint === "xxl") {
-            maxBreakpoint = o.breakpoint;
-            break;
+        if (!o.breakpoint) {
+            continue;
         }
 
-        if (
-            !maxBreakpoint ||
-            o.breakpoint === "xl" ||
-            (o.breakpoint === "lg" && maxBreakpoint !== "xl") ||
-            (o.breakpoint === "md" && !["lg", "xl"].includes(maxBreakpoint)) ||
-            (o.breakpoint === "sm" && !["md", "lg", "xl"].includes(maxBreakpoint))
-        ) {
-            maxBreakpoint = o.breakpoint;
-            continue;
+        let index = breakpoints.indexOf(o.breakpoint);
+
+        if (index > maxBreakpointIndex) {
+            maxBreakpointIndex = index;
+            maxColumn = o;
+        }
+
+        if (index === lastIndex) {
+            break;
         }
     }
 
-    return maxBreakpoint;
+    return maxColumn?.breakpoint;
 }
 
 export function getCellClass(col: BaseColumn, header: boolean, details: boolean): string {
@@ -29,7 +31,7 @@ export function getCellClass(col: BaseColumn, header: boolean, details: boolean)
 
     if (col.breakpoint) {
         if (details) {
-            classStr += ` d-table-cell d-${col.breakpoint}-none`;
+            classStr += ` d-${col.breakpoint}-none`;
         } else {
             classStr += ` d-none d-${col.breakpoint}-table-cell`;
         }

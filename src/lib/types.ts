@@ -6,7 +6,7 @@ export interface TableOptions<T> {
     columns: Column<T>[];
 }
 
-export type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl";
+export type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 export interface BaseColumn {
     name: string;

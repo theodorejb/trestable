@@ -48,6 +48,11 @@
                 breakpoint: "xl",
             },
             {
+                name: "Office",
+                property: "office",
+                breakpoint: "xxxl",
+            },
+            {
                 name: "Invoice #",
                 property: "invoiceNum",
                 breakpoint: "xxl",

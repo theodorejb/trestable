@@ -3,6 +3,7 @@ export interface Payment {
     itemName: string;
     purchaser: string;
     bankName: string;
+    office: string;
     amount: number;
     invoiceNum: string;
     lastEvent: {
@@ -20,6 +21,7 @@ export const exampleData: Payment[] = [
         itemName: "Dark Chocolate",
         purchaser: "Bob Smith",
         bankName: "Smalltown Bank",
+        office: "Main Office - 123 Test Ave",
         amount: 8.99,
         invoiceNum: "9234853",
         lastEvent: {
@@ -35,6 +37,7 @@ export const exampleData: Payment[] = [
         itemName: "250 Pizzas",
         purchaser: "Jane Doe",
         bankName: "Premier Capital",
+        office: "Palm Springs - 400 Tusk Blvd",
         amount: 2284,
         invoiceNum: "9562404",
         lastEvent: {
@@ -50,6 +53,7 @@ export const exampleData: Payment[] = [
         itemName: "Ford Mustang",
         purchaser: "Brian Bandy",
         bankName: "Building and Loan",
+        office: "Branch Office - 169 3rd St",
         amount: 33270,
         invoiceNum: "9317325",
         lastEvent: {
@@ -65,6 +69,7 @@ export const exampleData: Payment[] = [
         itemName: "Porch Swing",
         purchaser: "Daniel Mario",
         bankName: "Midwest Trust",
+        office: "Edina - 48 West Circle Dr",
         amount: 825,
         invoiceNum: "9354186",
         lastEvent: {
@@ -80,6 +85,7 @@ export const exampleData: Payment[] = [
         itemName: "Tennis Racket",
         purchaser: "Matt Muffalo",
         bankName: "Cyberbank LLC",
+        office: "Transylvania - 999 Yorktown Road",
         amount: 110,
         invoiceNum: "9358861",
         lastEvent: {
@@ -95,6 +101,7 @@ export const exampleData: Payment[] = [
         itemName: "French Fries",
         purchaser: "Andy Samson",
         bankName: "Whoville Securities",
+        office: "Whoville - 1 Little Circle",
         amount: 4.49,
         invoiceNum: "904129",
         lastEvent: {
@@ -110,6 +117,7 @@ export const exampleData: Payment[] = [
         itemName: "Park Place",
         purchaser: "Lori Greene",
         bankName: "California Bank",
+        office: "Only Office - 677 Boardwalk Ave",
         amount: 7500,
         invoiceNum: "903784",
         lastEvent: {

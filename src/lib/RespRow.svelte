@@ -74,6 +74,7 @@
 {/if}
 
 <style>
+    /* limitation: only applies consistently if last row with breakpoint has the largest breakpoint */
     .no-bottom-border > tbody > tr:last-child > :is(td, th) {
         border-bottom: 0;
     }
