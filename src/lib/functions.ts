@@ -26,18 +26,14 @@ export function getMaxBreakpoint(cols: BaseColumn[]): Breakpoint | undefined {
     return maxColumn?.breakpoint;
 }
 
-export function getCellClass(col: BaseColumn, header: boolean, details: boolean): string {
-    let classStr = (header ? col.thClass : col.tdClass) || "";
+export function getCellClass(col: BaseColumn, header: boolean): string {
+    let cls = (header ? col.thClass : col.tdClass) || "";
 
     if (col.breakpoint) {
-        if (details) {
-            classStr += ` d-${col.breakpoint}-none`;
-        } else {
-            classStr += ` d-none d-${col.breakpoint}-table-cell`;
-        }
+        cls += ` d-none d-${col.breakpoint}-table-cell`;
     }
 
-    return classStr;
+    return cls;
 }
 
 export function getValue<X>(property: string, obj: X): string {

@@ -21,7 +21,7 @@
                     <th class="d-table-cell d-{maxBreakpoint}-none" />
                 {/if}
                 {#each options.columns as col}
-                    <th class={getCellClass(col, true, false)}>{col.name}</th>
+                    <th class={getCellClass(col, true)}>{col.name}</th>
                 {/each}
             </tr>
         </thead>

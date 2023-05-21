@@ -47,7 +47,7 @@
         </td>
     {/if}
     {#each options.columns as col}
-        <td class={getCellClass(col, false, false)}>
+        <td class={getCellClass(col, false)}>
             <ColValue {col} {record} />
         </td>
     {/each}
@@ -59,11 +59,9 @@
                 <tbody>
                     {#each options.columns as col}
                         {#if col.breakpoint}
-                            <tr>
-                                <th class={getCellClass(col, true, true)}>{col.name}</th>
-                                <td class={getCellClass(col, false, true)}>
-                                    <ColValue {col} {record} />
-                                </td>
+                            <tr class="d-{col.breakpoint}-none">
+                                <th class={col.thClass}>{col.name}</th>
+                                <td class={col.tdClass}><ColValue {col} {record} /></td>
                             </tr>
                         {/if}
                     {/each}
