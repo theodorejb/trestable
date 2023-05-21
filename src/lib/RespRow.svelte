@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { getCellClass, getValue } from "./functions.js";
+    import ColValue from "./ColValue.svelte";
+    import { getCellClass } from "./functions.js";
     import type { TableOptions, Breakpoint } from "./types.js";
 
     type T = $$Generic;
@@ -47,13 +48,7 @@
     {/if}
     {#each options.columns as col}
         <td class={getCellClass(col, false, false)}>
-            {#if col.component}
-                <svelte:component this={col.component} {record} />
-            {:else if col.getValue}
-                {col.getValue(record)}
-            {:else if col.property}
-                {getValue(col.property, record)}
-            {/if}
+            <ColValue {col} {record} />
         </td>
     {/each}
 </tr>
@@ -67,13 +62,7 @@
                             <tr>
                                 <th class={getCellClass(col, true, true)}>{col.name}</th>
                                 <td class={getCellClass(col, false, true)}>
-                                    {#if col.component}
-                                        <svelte:component this={col.component} {record} />
-                                    {:else if col.getValue}
-                                        {col.getValue(record)}
-                                    {:else if col.property}
-                                        {getValue(col.property, record)}
-                                    {/if}
+                                    <ColValue {col} {record} />
                                 </td>
                             </tr>
                         {/if}
