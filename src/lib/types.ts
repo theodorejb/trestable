@@ -1,7 +1,10 @@
 import type { ComponentType, SvelteComponentTyped } from "svelte";
 
 export interface TableOptions<T> {
-    caption?: string;
+    class?: string;
+    theadTrClass?: string;
+    tbodyClass?: string;
+    detailsClass?: string;
     data: T[];
     columns: Column<T>[];
 }

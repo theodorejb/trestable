@@ -7,7 +7,7 @@
     import PaymentActions from "./PaymentActions.svelte";
 
     let options: TableOptions<Payment> = {
-        caption: "Payments",
+        class: "table caption-top",
         data: exampleData,
         columns: [
             {
@@ -89,6 +89,8 @@
 
         <p class="lead">A responsive data table component built with Svelte and Bootstrap 5.</p>
 
-        <Trestable {options} />
+        <Trestable {options}>
+            <caption>Payments</caption>
+        </Trestable>
     </div>
 </main>

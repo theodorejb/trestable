@@ -14,7 +14,7 @@
 
 <tr>
     {#if maxBreakpoint}
-        <td class="d-table-cell d-{maxBreakpoint}-none px-0">
+        <td class="d-{maxBreakpoint}-none px-0">
             <button
                 class="btn btn-link p-0"
                 title="Toggle Details"
@@ -53,9 +53,9 @@
     {/each}
 </tr>
 {#if isOpen}
-    <tr class="table-row d-{maxBreakpoint}-none">
+    <tr class="d-{maxBreakpoint}-none">
         <td colspan={options.columns.length}>
-            <table class="table table-sm mb-0 no-bottom-border">
+            <table class={options.detailsClass}>
                 <tbody>
                     {#each options.columns as col}
                         {#if col.breakpoint}

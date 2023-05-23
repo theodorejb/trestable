@@ -6,29 +6,36 @@
     type T = $$Generic;
 
     export let options: TableOptions<T>;
+    $: maxBreakpoint = getMaxBreakpoint(options.columns);
 
-    let maxBreakpoint = getMaxBreakpoint(options.columns);
+    if (options.class === undefined) {
+        options.class = "trestable table";
+    }
+
+    if (options.theadTrClass === undefined) {
+        options.theadTrClass = "table-primary";
+    }
+
+    if (options.detailsClass === undefined) {
+        options.detailsClass = "table table-sm mb-0 no-bottom-border";
+    }
 </script>
 
-<div class="table-responsive">
-    <table class="table" class:caption-top={!!options.caption}>
-        {#if options.caption}
-            <caption>{options.caption}</caption>
-        {/if}
-        <thead>
-            <tr class="table-primary">
-                {#if maxBreakpoint}
-                    <th class="d-table-cell d-{maxBreakpoint}-none" />
-                {/if}
-                {#each options.columns as col}
-                    <th class={getCellClass(col, true)}>{col.name}</th>
-                {/each}
-            </tr>
-        </thead>
-        <tbody>
-            {#each options.data as record}
-                <RespRow {options} {maxBreakpoint} {record} />
+<table class={options.class}>
+    <slot />
+    <thead>
+        <tr class={options.theadTrClass}>
+            {#if maxBreakpoint}
+                <th class="d-{maxBreakpoint}-none" />
+            {/if}
+            {#each options.columns as col}
+                <th class={getCellClass(col, true)}>{col.name}</th>
             {/each}
-        </tbody>
-    </table>
-</div>
+        </tr>
+    </thead>
+    <tbody class={options.tbodyClass}>
+        {#each options.data as record}
+            <RespRow {options} {maxBreakpoint} {record} />
+        {/each}
+    </tbody>
+</table>
