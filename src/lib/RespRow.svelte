@@ -72,8 +72,61 @@
 {/if}
 
 <style>
-    /* limitation: only applies consistently if last row with breakpoint has the largest breakpoint */
-    .no-bottom-border > tbody > tr:last-child > :is(td, th) {
-        border-bottom: 0;
+    /* breakpoints from https://getbootstrap.com/docs/5.3/layout/breakpoints/ */
+
+    @media (max-width: 575.98px) {
+        /* xs screen */
+        .no-bottom-border > tbody > tr:last-child > :is(td, th) {
+            border-bottom: 0;
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        /* sm screen */
+        .no-bottom-border > tbody > tr:nth-last-child(1 of :not(.d-sm-none)) > :is(td, th) {
+            border-bottom: 0;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        /* md screen */
+        .no-bottom-border
+            > tbody
+            > tr:nth-last-child(1 of :not(.d-sm-none, .d-md-none))
+            > :is(td, th) {
+            border-bottom: 0;
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+        /* lg screen */
+        .no-bottom-border
+            > tbody
+            > tr:nth-last-child(1 of :not(.d-sm-none, .d-md-none, .d-lg-none))
+            > :is(td, th) {
+            border-bottom: 0;
+        }
+    }
+
+    @media (min-width: 1200px) and (max-width: 1399.98px) {
+        /* xl screen */
+        .no-bottom-border
+            > tbody
+            > tr:nth-last-child(1 of :not(.d-sm-none, .d-md-none, .d-lg-none, .d-xl-none))
+            > :is(td, th) {
+            border-bottom: 0;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        /* xxl screen */
+        .no-bottom-border
+            > tbody
+            > tr:nth-last-child(
+                1 of :not(.d-sm-none, .d-md-none, .d-lg-none, .d-xl-none, .d-xxl-none)
+            )
+            > :is(td, th) {
+            border-bottom: 0;
+        }
     }
 </style>
