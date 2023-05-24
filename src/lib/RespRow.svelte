@@ -10,6 +10,8 @@
     export let record: T;
 
     let isOpen = false;
+
+    $: toggleLabel = isOpen ? "Hide Details" : "Show Details";
 </script>
 
 <tr>
@@ -17,7 +19,8 @@
         <td class="d-{maxBreakpoint}-none px-0">
             <button
                 class="btn btn-link p-0"
-                title="Toggle Details"
+                title={toggleLabel}
+                aria-label={toggleLabel}
                 on:click={() => (isOpen = !isOpen)}
             >
                 {#if isOpen}
