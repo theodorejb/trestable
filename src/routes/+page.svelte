@@ -1,69 +1,79 @@
 <script lang="ts">
     import { exampleData } from "./exampleData.js";
     import type { Payment } from "./exampleData.js";
-    import type { TableOptions } from "$lib/types.js";
+    import type { Column, TableOptions } from "$lib/types.js";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
     import PaymentActions from "./PaymentActions.svelte";
 
+    const columns: Column<Payment>[] = [
+        {
+            name: "ID",
+            property: "id",
+            breakpoint: "sm",
+        },
+        {
+            name: "Item",
+            property: "itemName",
+            breakpoint: "lg",
+        },
+        {
+            name: "Purchaser",
+            property: "purchaser",
+        },
+        {
+            name: "Amount",
+            property: "amount",
+            getValue: (d) => formatUSD(d.amount),
+            breakpoint: "md",
+        },
+        {
+            name: "Status",
+            property: "lastEvent.status",
+            component: PaymentStatus,
+        },
+        {
+            name: "Latest Activity",
+            property: "lastEvent.date",
+            getValue: (d) => formatDateTime(new Date(d.lastEvent.date)),
+            breakpoint: "md",
+            thClass: "text-nowrap",
+        },
+        {
+            name: "Bank Name",
+            property: "bankName",
+            breakpoint: "xl",
+        },
+        {
+            name: "Office",
+            property: "office",
+            breakpoint: "xxxl",
+        },
+        {
+            name: "Invoice #",
+            property: "invoiceNum",
+            breakpoint: "xxl",
+        },
+        {
+            name: "Actions",
+            tdClass: "text-nowrap small",
+            component: PaymentActions,
+        },
+    ];
+
     let options: TableOptions<Payment> = {
-        class: "table caption-top",
+        class: "table caption-top mb-4",
         data: exampleData,
-        columns: [
-            {
-                name: "ID",
-                property: "id",
-                breakpoint: "sm",
-            },
-            {
-                name: "Item",
-                property: "itemName",
-                breakpoint: "lg",
-            },
-            {
-                name: "Purchaser",
-                property: "purchaser",
-            },
-            {
-                name: "Amount",
-                property: "amount",
-                getValue: (d) => formatUSD(d.amount),
-                breakpoint: "md",
-            },
-            {
-                name: "Status",
-                property: "lastEvent.status",
-                component: PaymentStatus,
-            },
-            {
-                name: "Latest Activity",
-                property: "lastEvent.date",
-                getValue: (d) => formatDateTime(new Date(d.lastEvent.date)),
-                breakpoint: "md",
-                thClass: "text-nowrap",
-            },
-            {
-                name: "Bank Name",
-                property: "bankName",
-                breakpoint: "xl",
-            },
-            {
-                name: "Office",
-                property: "office",
-                breakpoint: "xxxl",
-            },
-            {
-                name: "Invoice #",
-                property: "invoiceNum",
-                breakpoint: "xxl",
-            },
-            {
-                name: "Actions",
-                tdClass: "text-nowrap small",
-                component: PaymentActions,
-            },
-        ],
+        columns: [],
     };
+
+    let includeXxxlCol = false;
+
+    $: if (includeXxxlCol) {
+        options.columns = columns;
+    } else {
+        options.columns = columns.filter((c) => c.breakpoint !== "xxxl");
+    }
 
     function formatUSD(amount: number): string {
         const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
@@ -92,5 +102,16 @@
         <Trestable {options}>
             <caption>Payments</caption>
         </Trestable>
+
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="includeXxxlCol"
+                bind:checked={includeXxxlCol}
+            />
+            <label class="form-check-label" for="includeXxxlCol">Include always-hidden column</label
+            >
+        </div>
     </div>
 </main>
