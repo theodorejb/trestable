@@ -95,7 +95,7 @@
 
 <main class="flex-shrink-0">
     <div class="container-lg">
-        <h1>Trestable</h1>
+        <h1 class="mt-1">Trestable</h1>
 
         <p class="lead">A responsive data table component built with Svelte and Bootstrap 5.</p>
 
@@ -103,7 +103,7 @@
             <caption>Payments</caption>
         </Trestable>
 
-        <div class="form-check">
+        <div class="form-check mb-3">
             <input
                 class="form-check-input"
                 type="checkbox"
