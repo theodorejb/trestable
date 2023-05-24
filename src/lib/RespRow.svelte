@@ -26,8 +26,9 @@
                 {#if isOpen}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
+                        class="d-block"
+                        width="20"
+                        height="20"
                         viewBox="0 0 448 512"
                         fill="currentColor"
                         ><path
@@ -37,8 +38,9 @@
                 {:else}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
+                        class="d-block"
+                        width="20"
+                        height="20"
                         viewBox="0 0 448 512"
                         fill="currentColor"
                         ><path
