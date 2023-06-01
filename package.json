@@ -1,6 +1,6 @@
 {
     "name": "trestable",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "A responsive data table component built with Svelte and Bootstrap.",
     "license": "MIT",
     "scripts": {

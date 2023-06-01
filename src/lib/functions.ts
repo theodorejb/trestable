@@ -44,7 +44,7 @@ export function getValue<X>(property: string, obj: X): string {
         val = val[part];
 
         if (val === null) {
-            return val;
+            return "";
         }
     }
 

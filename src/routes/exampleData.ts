@@ -10,7 +10,7 @@ export interface Payment {
         id: number;
         status: string;
         color: string;
-        details: string;
+        details: string | null;
         date: string;
     };
 }
@@ -92,7 +92,7 @@ export const exampleData: Payment[] = [
             id: 12,
             status: "Expired",
             color: "blueviolet",
-            details: "",
+            details: null,
             date: "2023-05-15T23:31:00-0500",
         },
     },
