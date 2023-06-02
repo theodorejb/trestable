@@ -28,12 +28,12 @@
      inkscape:document-units="px"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="133.5"
-     inkscape:cy="261.5"
-     inkscape:window-width="1450"
+     inkscape:cx="135"
+     inkscape:cy="266.5"
+     inkscape:window-width="1759"
      inkscape:window-height="1243"
-     inkscape:window-x="156"
-     inkscape:window-y="32"
+     inkscape:window-x="555"
+     inkscape:window-y="39"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
@@ -50,18 +50,18 @@
        x="0"
        y="0" />
     <rect
-       style="fill:#2a804e;fill-opacity:1;stroke-width:0.169021"
+       style="fill:#2a804e;fill-opacity:1;stroke-width:0.166997"
        id="rect111-5"
-       width="55.562496"
+       width="54.239578"
        height="52.916664"
-       x="79.90416"
+       x="81.227074"
        y="0" />
     <rect
-       style="fill:#2a804e;fill-opacity:1;stroke-width:0.306642"
+       style="fill:#2a804e;fill-opacity:1;stroke-width:0.30379"
        id="rect111-0"
        width="135.46666"
-       height="71.4375"
+       height="70.114586"
        x="0"
-       y="64.029167" />
+       y="65.352081" />
   </g>
 </svg>
