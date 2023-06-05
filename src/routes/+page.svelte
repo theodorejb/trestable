@@ -1,10 +1,13 @@
 <script lang="ts">
-    import { exampleData } from "./exampleData.js";
     import type { Payment } from "./exampleData.js";
     import type { Column, TableOptions } from "$lib/types.js";
+    import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
     import PaymentActions from "./PaymentActions.svelte";
+    import type { PageData } from "./$types.js";
+
+    export let data: PageData;
 
     const columns: Column<Payment>[] = [
         {
@@ -63,7 +66,7 @@
 
     let options: TableOptions<Payment> = {
         class: "table caption-top mb-4",
-        data: exampleData,
+        data: [],
         columns: [],
     };
 
@@ -74,6 +77,8 @@
     } else {
         options.columns = columns.filter((c) => c.breakpoint !== "xxxl");
     }
+
+    $: options.data = data.data;
 
     function formatUSD(amount: number): string {
         const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
@@ -102,6 +107,8 @@
         <Trestable {options}>
             <caption>Payments</caption>
         </Trestable>
+
+        <Pagination page={data.page} pages={data.pages} params={data.params} />
 
         <div class="form-check mb-3">
             <input
