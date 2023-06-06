@@ -1,13 +1,14 @@
 <script lang="ts">
     import ColValue from "./ColValue.svelte";
     import { getCellClass } from "./functions.js";
-    import type { TableOptions, Breakpoint } from "./types.js";
+    import type { Column, Breakpoint } from "./types.js";
 
     type T = $$Generic;
 
-    export let options: TableOptions<T>;
+    export let columns: Column<T>[];
     export let maxBreakpoint: Breakpoint | undefined;
     export let record: T;
+    export let detailsClass: string;
 
     let isOpen = false;
 
@@ -51,7 +52,7 @@
             </button>
         </td>
     {/if}
-    {#each options.columns as col}
+    {#each columns as col}
         <td class={getCellClass(col, false)}>
             <ColValue {col} {record} />
         </td>
@@ -59,10 +60,10 @@
 </tr>
 {#if isOpen}
     <tr class="d-{maxBreakpoint}-none">
-        <td colspan={options.columns.length}>
-            <table class={options.detailsClass}>
+        <td colspan={columns.length}>
+            <table class={detailsClass}>
                 <tbody>
-                    {#each options.columns as col}
+                    {#each columns as col}
                         {#if col.breakpoint}
                             <tr class="d-{col.breakpoint}-none">
                                 <th class={col.thClass}>{col.name}</th>

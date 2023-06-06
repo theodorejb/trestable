@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Payment } from "./exampleData.js";
-    import type { Column, TableOptions } from "$lib/types.js";
+    import type { Column } from "$lib/types.js";
     import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
@@ -9,7 +9,7 @@
 
     export let data: PageData;
 
-    const columns: Column<Payment>[] = [
+    const allColumns: Column<Payment>[] = [
         {
             name: "ID",
             property: "id",
@@ -64,21 +64,14 @@
         },
     ];
 
-    let options: TableOptions<Payment> = {
-        class: "table caption-top mb-4",
-        data: [],
-        columns: [],
-    };
-
     let includeXxxlCol = false;
+    let columns: Column<Payment>[] = [];
 
     $: if (includeXxxlCol) {
-        options.columns = columns;
+        columns = allColumns;
     } else {
-        options.columns = columns.filter((c) => c.breakpoint !== "xxxl");
+        columns = allColumns.filter((c) => c.breakpoint !== "xxxl");
     }
-
-    $: options.data = data.data;
 
     function formatUSD(amount: number): string {
         const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
@@ -104,7 +97,7 @@
 
         <p class="lead">A responsive data table component built with Svelte and Bootstrap 5.</p>
 
-        <Trestable {options}>
+        <Trestable class="table caption-top mb-4" {columns} data={data.data}>
             <caption>Payments</caption>
         </Trestable>
 

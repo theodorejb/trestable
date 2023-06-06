@@ -1,14 +1,5 @@
 import type { ComponentType, SvelteComponentTyped } from "svelte";
 
-export interface TableOptions<T> {
-    class?: string;
-    theadTrClass?: string;
-    tbodyClass?: string;
-    detailsClass?: string;
-    data: T[];
-    columns: Column<T>[];
-}
-
 export type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 export interface BaseColumn {
