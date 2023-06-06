@@ -1,5 +1,6 @@
 <script lang="ts">
     import ColValue from "./ColValue.svelte";
+    import ColHeadValue from "./ColHeadValue.svelte";
     import { getCellClass } from "./functions.js";
     import type { Column, Breakpoint } from "./types.js";
 
@@ -9,6 +10,7 @@
     export let maxBreakpoint: Breakpoint | undefined;
     export let record: T;
     export let detailsClass: string;
+    export let params: { [key: string]: string };
 
     let isOpen = false;
 
@@ -66,7 +68,7 @@
                     {#each columns as col}
                         {#if col.breakpoint}
                             <tr class="d-{col.breakpoint}-none">
-                                <th class={col.thClass}>{col.name}</th>
+                                <th class={col.thClass}><ColHeadValue {col} {params} /></th>
                                 <td class={col.tdClass}><ColValue {col} {record} /></td>
                             </tr>
                         {/if}

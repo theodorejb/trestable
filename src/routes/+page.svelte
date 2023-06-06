@@ -97,7 +97,7 @@
 
         <p class="lead">A responsive data table component built with Svelte and Bootstrap 5.</p>
 
-        <Trestable class="table caption-top mb-4" {columns} data={data.data}>
+        <Trestable class="table caption-top mb-4" {columns} data={data.data} params={data.params}>
             <caption>Payments</caption>
         </Trestable>
 

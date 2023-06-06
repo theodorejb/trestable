@@ -11,7 +11,7 @@ export function getMaxBreakpoint(cols: BaseColumn[]): Breakpoint | undefined {
             continue;
         }
 
-        let index = breakpoints.indexOf(o.breakpoint);
+        const index = breakpoints.indexOf(o.breakpoint);
 
         if (index > maxBreakpointIndex) {
             maxBreakpointIndex = index;
@@ -36,7 +36,25 @@ export function getCellClass(col: BaseColumn, header: boolean): string {
     return cls;
 }
 
-export function getValue<X>(property: string, obj: X): string {
+export function getPropertyParam(property: string): string {
+    const parts = property.split(".");
+    let param = "";
+
+    for (const part of parts) {
+        param += `[${part}]`;
+    }
+
+    return param;
+}
+
+export function getParamProperty(param: string): string {
+    let property = param.replaceAll("][", ".");
+    property = property.replaceAll("sort[", "");
+
+    return property.replaceAll("]", "");
+}
+
+export function getValue<X>(property: string, obj: X): string | number | boolean {
     const parts = property.split(".");
     let val: any = obj;
 
