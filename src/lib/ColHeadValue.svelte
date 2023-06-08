@@ -8,16 +8,21 @@
     let curSortVal = "";
 
     $: if (col.property) {
+        let filteredParams = Object.fromEntries(
+            Object.entries(params).filter(([key]) => key !== "page" && !key.startsWith("sort[")),
+        );
+
+        let paramsObj = new URLSearchParams(filteredParams);
         let param = "sort" + getPropertyParam(col.property);
         curSortVal = params[param];
 
         if (!curSortVal) {
-            sortLink = `?${param}=asc`;
+            paramsObj.set(param, "asc");
         } else if (curSortVal === "asc") {
-            sortLink = `?${param}=desc`;
-        } else {
-            sortLink = "?";
+            paramsObj.set(param, "desc");
         }
+
+        sortLink = "?" + paramsObj.toString();
     }
 </script>
 
