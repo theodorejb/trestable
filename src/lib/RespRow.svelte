@@ -68,8 +68,12 @@
                     {#each columns as col}
                         {#if col.breakpoint}
                             <tr class="d-{col.breakpoint}-none">
-                                <th class={col.thClass}><ColHeadValue {col} {params} /></th>
-                                <td class={col.tdClass}><ColValue {col} {record} /></td>
+                                <th class="{col.thClass ?? ''} bg-transparent">
+                                    <ColHeadValue {col} {params} />
+                                </th>
+                                <td class="{col.tdClass ?? ''} bg-transparent">
+                                    <ColValue {col} {record} />
+                                </td>
                             </tr>
                         {/if}
                     {/each}
