@@ -64,6 +64,7 @@
         },
     ];
 
+    let paginationIcons = false;
     let includeXxxlCol = false;
     let columns: Column<Payment>[] = [];
 
@@ -101,8 +102,22 @@
             <caption>Payments</caption>
         </Trestable>
 
-        <Pagination page={data.page} pages={data.pages} params={data.params} />
+        <Pagination
+            page={data.page}
+            pages={data.pages}
+            params={data.params}
+            useIcons={paginationIcons}
+        />
 
+        <div class="form-check mb-2">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="paginationIcons"
+                bind:checked={paginationIcons}
+            />
+            <label class="form-check-label" for="paginationIcons">Use icons for pagination</label>
+        </div>
         <div class="form-check mb-3">
             <input
                 class="form-check-input"

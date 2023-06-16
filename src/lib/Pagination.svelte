@@ -6,6 +6,7 @@
     export let paramName = "page";
     export let prevName = "Previous";
     export let nextName = "Next";
+    export let useIcons = false;
 
     $: if (page > pages) {
         page = pages;
@@ -14,9 +15,9 @@
     $: allPages = [...Array(pages).keys()].map((i) => i + 1);
     let pageArr: number[] = [];
 
-    $: if (pages > 6) {
+    $: if (pages > 5) {
         let startPage = page - 3;
-        let endPage = page + 3;
+        let endPage = page + 2;
 
         if (startPage < 0) {
             endPage += 0 - startPage;
@@ -27,7 +28,7 @@
 
         pageArr = allPages.slice(startPage, endPage);
         pageArr[0] = 1;
-        pageArr[5] = pages;
+        pageArr[pageArr.length - 1] = pages;
     } else {
         pageArr = allPages;
     }
@@ -42,9 +43,27 @@
 <nav aria-label={label}>
     <ul class="pagination">
         <li class="page-item" class:disabled={page < 2}>
-            <a tabindex={page < 2 ? -1 : null} class="page-link" href={getLink(page - 1, params)}
-                >{prevName}</a
+            <a
+                tabindex={page < 2 ? -1 : null}
+                class="page-link"
+                aria-label={prevName}
+                href={getLink(page - 1, params)}
             >
+                {#if useIcons}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="pg-img"
+                        height="1em"
+                        viewBox="0 0 320 512"
+                        fill="currentColor"
+                        ><path
+                            d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+                        /></svg
+                    >
+                {:else}
+                    {prevName}
+                {/if}
+            </a>
         </li>
 
         {#each pageArr as pg}
@@ -57,8 +76,31 @@
             <a
                 tabindex={page === pages ? -1 : null}
                 class="page-link"
-                href={getLink(page + 1, params)}>{nextName}</a
+                aria-label={nextName}
+                href={getLink(page + 1, params)}
             >
+                {#if useIcons}
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="pg-img"
+                        height="1em"
+                        viewBox="0 0 320 512"
+                        fill="currentColor"
+                        ><path
+                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                        /></svg
+                    >
+                {:else}
+                    {nextName}
+                {/if}
+            </a>
         </li>
     </ul>
 </nav>
+
+<style>
+    .pg-img {
+        position: relative;
+        top: -2px;
+    }
+</style>
