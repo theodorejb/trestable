@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
+
     export let pages: number;
     export let page: number;
     export let params: { [key: string]: string } = {};
@@ -7,6 +9,11 @@
     export let prevName = "Previous";
     export let nextName = "Next";
     export let useIcons = false;
+    export let limitLabel = "Page size";
+    export let limit = 25;
+    export let limits = [10, 25, 50, 100, 200];
+
+    const dispatch = createEventDispatcher<{ limitChanged: { limit: number } }>();
 
     $: if (page > pages) {
         page = pages;
@@ -33,6 +40,10 @@
         pageArr = allPages;
     }
 
+    function limitChanged() {
+        dispatch("limitChanged", { limit });
+    }
+
     function getLink(page: number, params: { [key: string]: string }) {
         const search = new URLSearchParams(params);
         search.set(paramName, page.toString());
@@ -41,61 +52,80 @@
 </script>
 
 <nav aria-label={label}>
-    <ul class="pagination">
-        <li class="page-item" class:disabled={page < 2}>
-            <a
-                tabindex={page < 2 ? -1 : null}
-                class="page-link"
-                aria-label={prevName}
-                href={getLink(page - 1, params)}
-            >
-                {#if useIcons}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="pg-img"
-                        height="1em"
-                        viewBox="0 0 320 512"
-                        fill="currentColor"
-                        ><path
-                            d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
-                        /></svg
+    <div class="row justify-content-evenly g-3 mb-3">
+        <div class="col-sm-9">
+            <ul class="pagination mb-0">
+                <li class="page-item" class:disabled={page < 2}>
+                    <a
+                        tabindex={page < 2 ? -1 : null}
+                        class="page-link"
+                        aria-label={prevName}
+                        href={getLink(page - 1, params)}
                     >
-                {:else}
-                    {prevName}
-                {/if}
-            </a>
-        </li>
+                        {#if useIcons}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="pg-img"
+                                height="1em"
+                                viewBox="0 0 320 512"
+                                fill="currentColor"
+                                ><path
+                                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+                                /></svg
+                            >
+                        {:else}
+                            {prevName}
+                        {/if}
+                    </a>
+                </li>
 
-        {#each pageArr as pg}
-            <li class="page-item" class:active={pg === page}>
-                <a class="page-link" href={getLink(pg, params)}>{pg}</a>
-            </li>
-        {/each}
+                {#each pageArr as pg}
+                    <li class="page-item" class:active={pg === page}>
+                        <a class="page-link" href={getLink(pg, params)}>{pg}</a>
+                    </li>
+                {/each}
 
-        <li class="page-item" class:disabled={page === pages}>
-            <a
-                tabindex={page === pages ? -1 : null}
-                class="page-link"
-                aria-label={nextName}
-                href={getLink(page + 1, params)}
-            >
-                {#if useIcons}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="pg-img"
-                        height="1em"
-                        viewBox="0 0 320 512"
-                        fill="currentColor"
-                        ><path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                        /></svg
+                <li class="page-item" class:disabled={page === pages}>
+                    <a
+                        tabindex={page === pages ? -1 : null}
+                        class="page-link"
+                        aria-label={nextName}
+                        href={getLink(page + 1, params)}
                     >
-                {:else}
-                    {nextName}
-                {/if}
-            </a>
-        </li>
-    </ul>
+                        {#if useIcons}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="pg-img"
+                                height="1em"
+                                viewBox="0 0 320 512"
+                                fill="currentColor"
+                                ><path
+                                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                                /></svg
+                            >
+                        {:else}
+                            {nextName}
+                        {/if}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-3">
+            {#if limits.length > 0}
+                <select
+                    aria-label={limitLabel}
+                    class="form-select float-sm-end w-auto"
+                    bind:value={limit}
+                    on:change={limitChanged}
+                >
+                    <option value="" disabled>{limitLabel}</option>
+                    {#each limits as limit}
+                        <option value={limit}>{limit}</option>
+                    {/each}
+                </select>
+            {/if}
+        </div>
+    </div>
 </nav>
 
 <style>

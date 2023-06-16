@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { Payment } from "./exampleData.js";
     import type { Column } from "$lib/types.js";
+    import type { PageData } from "./$types.js";
+    import { goto } from "$app/navigation";
     import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
     import PaymentActions from "./PaymentActions.svelte";
-    import type { PageData } from "./$types.js";
 
     export let data: PageData;
 
@@ -86,6 +87,12 @@
         });
         return formatter.format(date);
     }
+
+    function handleLimitChange(event: CustomEvent<{ limit: number }>) {
+        const search = new URLSearchParams(data.params);
+        search.set("limit", event.detail.limit.toString());
+        goto("?" + search.toString());
+    }
 </script>
 
 <svelte:head>
@@ -107,6 +114,8 @@
             pages={data.pages}
             params={data.params}
             useIcons={paginationIcons}
+            limit={+(data.params.limit ?? 25)}
+            on:limitChanged={handleLimitChange}
         />
 
         <div class="form-check mb-2">
