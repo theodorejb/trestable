@@ -1,10 +1,8 @@
-<script lang="ts">
+<script lang="ts" generics="T">
     import ColValue from "./ColValue.svelte";
     import ColHeadValue from "./ColHeadValue.svelte";
     import { getCellClass } from "./functions.js";
     import type { Column, Breakpoint } from "./types.js";
-
-    type T = $$Generic;
 
     export let columns: Column<T>[];
     export let maxBreakpoint: Breakpoint | undefined;

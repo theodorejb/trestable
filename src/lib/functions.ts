@@ -56,6 +56,7 @@ export function getParamProperty(param: string): string {
 
 export function getValue<X>(property: string, obj: X): string | number | boolean {
     const parts = property.split(".");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let val: any = obj;
 
     for (const part of parts) {

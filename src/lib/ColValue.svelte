@@ -1,8 +1,6 @@
-<script lang="ts">
+<script lang="ts" generics="T">
     import { getValue } from "./functions.js";
     import type { Column } from "./types.js";
-
-    type T = $$Generic;
 
     export let col: Column<T>;
     export let record: T;
