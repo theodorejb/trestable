@@ -1,11 +1,11 @@
-import type { ComponentType, SvelteComponentTyped } from "svelte";
+import type { ComponentType, SvelteComponent } from "svelte";
 
 export type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 export interface BaseColumn {
     name: string;
     property?: string;
-    component?: ComponentType<SvelteComponentTyped>;
+    component?: ComponentType<SvelteComponent>;
     breakpoint?: Breakpoint;
     thClass?: string;
     tdClass?: string;
