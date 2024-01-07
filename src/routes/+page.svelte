@@ -6,7 +6,6 @@
     import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
-    import PaymentActions from "./PaymentActions.svelte";
 
     export let data: PageData;
 
@@ -14,7 +13,7 @@
         {
             name: "ID",
             property: "id",
-            breakpoint: "sm",
+            breakpoint: "md",
         },
         {
             name: "Item",
@@ -29,7 +28,7 @@
             name: "Amount",
             property: "amount",
             getValue: (d) => formatUSD(d.amount),
-            breakpoint: "md",
+            breakpoint: "sm",
         },
         {
             name: "Status",
@@ -57,11 +56,6 @@
             name: "Invoice #",
             property: "invoiceNum",
             breakpoint: "xxl",
-        },
-        {
-            name: "Actions",
-            tdClass: "text-nowrap small",
-            component: PaymentActions,
         },
     ];
 
