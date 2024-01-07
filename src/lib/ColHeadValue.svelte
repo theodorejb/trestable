@@ -1,8 +1,8 @@
-<script lang="ts">
-    import type { BaseColumn } from "./types.js";
+<script lang="ts" generics="T">
     import { getPropertyParam } from "./functions.js";
+    import type { Column } from "./types.js";
 
-    export let col: BaseColumn;
+    export let col: Column<T>;
     export let params: { [key: string]: string };
     let sortLink = "";
     let curSortVal = "";
