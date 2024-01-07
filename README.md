@@ -49,19 +49,17 @@ The pagination component can be rendered as follows:
 
 ```html
 {#if pages > 1}
-    <Pagination {pages} {page} {params} {limit}
-        on:limitChanged={handleLimitChange}
-    />
+    <Pagination {pages} {page} {params} {limit} {limitChanged} />
 {/if}
 ```
 
 The limit change handler could be defined as follows:
 
 ```ts
-function handleLimitChange(event: CustomEvent<{ limit: number }>) {
-    localStorage.setItem("pageSize", event.detail.limit.toString());
+function limitChanged(limit: number) {
+    localStorage.setItem("pageSize", limit.toString());
     const search = new URLSearchParams(params);
-    search.set("limit", event.detail.limit.toString());
+    search.set("limit", limit.toString());
     search.delete("page");
     goto("?" + search.toString());
 }

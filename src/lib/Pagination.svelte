@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
-
     export let pages: number;
     export let page: number;
+    export let limitChanged: (limit: number) => void;
+
     export let params: { [key: string]: string } = {};
     export let label = "Table page navigation";
     export let paramName = "page";
@@ -12,8 +12,6 @@
     export let limitLabel = "Page size";
     export let limit = 25;
     export let limits = [10, 25, 50, 100, 200];
-
-    const dispatch = createEventDispatcher<{ limitChanged: { limit: number } }>();
 
     $: if (page > pages) {
         page = pages;
@@ -38,10 +36,6 @@
         pageArr[pageArr.length - 1] = pages;
     } else {
         pageArr = allPages;
-    }
-
-    function limitChanged() {
-        dispatch("limitChanged", { limit });
     }
 
     function getLink(page: number, params: { [key: string]: string }) {
@@ -116,7 +110,7 @@
                     aria-label={limitLabel}
                     class="form-select float-sm-end w-auto"
                     bind:value={limit}
-                    on:change={limitChanged}
+                    on:change={() => limitChanged(limit)}
                 >
                     <option value="" disabled>{limitLabel}</option>
                     {#each limits as limit}

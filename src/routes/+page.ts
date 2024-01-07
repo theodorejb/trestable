@@ -3,6 +3,7 @@ import { exampleData } from "./exampleData.js";
 
 export async function load({ url }) {
     const page = +(url.searchParams.get("page") ?? 1);
+    const limit = +(url.searchParams.get("limit") ?? 5);
     const data = [...exampleData];
 
     for (const p of url.searchParams) {
@@ -14,9 +15,10 @@ export async function load({ url }) {
 
     return {
         page,
-        pages: 2,
+        pages: Math.ceil(data.length / limit),
         params: Object.fromEntries(url.searchParams),
-        data: page === 1 ? data.slice(0, 6) : data.slice(6, 7),
+        limit,
+        data: data.slice((page - 1) * limit, limit * page),
     };
 }
 

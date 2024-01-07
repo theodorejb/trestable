@@ -88,9 +88,10 @@
         return formatter.format(date);
     }
 
-    function handleLimitChange(event: CustomEvent<{ limit: number }>) {
+    function limitChanged(limit: number) {
         const search = new URLSearchParams(data.params);
-        search.set("limit", event.detail.limit.toString());
+        search.set("limit", limit.toString());
+        search.delete("page");
         goto("?" + search.toString());
     }
 </script>
@@ -114,8 +115,9 @@
             pages={data.pages}
             params={data.params}
             useIcons={paginationIcons}
-            limit={+(data.params.limit ?? 25)}
-            on:limitChanged={handleLimitChange}
+            limit={data.limit}
+            limits={[5, 25, 50, 100, 200]}
+            {limitChanged}
         />
 
         <div class="form-check mb-2">
