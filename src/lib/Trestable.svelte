@@ -4,6 +4,9 @@
     import RespRow from "./RespRow.svelte";
     import ColHeadValue from "./ColHeadValue.svelte";
 
+    let className = "trestable table";
+    export { className as class };
+
     export let data: T[];
     export let columns: Column<T>[];
     export let theadTrClass = "table-primary";
@@ -14,7 +17,7 @@
     $: maxBreakpoint = getMaxBreakpoint(columns);
 </script>
 
-<table class={$$props.class ?? "trestable table"}>
+<table class={className}>
     <slot />
     <thead>
         <tr class={theadTrClass}>
