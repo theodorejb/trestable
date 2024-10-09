@@ -8,6 +8,10 @@
     import PaymentStatus from "./PaymentStatus.svelte";
 
     export let data: PageData;
+    $: pages = data.pages;
+    $: page = data.page;
+    $: params = data.params;
+    $: limit = data.limit;
 
     const allColumns: Column<Payment>[] = [
         {
@@ -59,7 +63,8 @@
         },
     ];
 
-    let paginationIcons = false;
+    const limits = [5, 10, 50, 100, 200];
+    let useIcons = false;
     let includeXxxlCol = false;
     let columns: Column<Payment>[] = [];
 
@@ -83,7 +88,7 @@
     }
 
     function limitChanged(limit: number) {
-        const search = new URLSearchParams(data.params);
+        const search = new URLSearchParams(params);
         search.set("limit", limit.toString());
         search.delete("page");
         goto("?" + search.toString());
@@ -128,26 +133,18 @@
     <div class="container-lg">
         <h2 class="mt-3">Demo</h2>
 
-        <Trestable class="table caption-top mb-4" {columns} data={data.data} params={data.params}>
+        <Trestable class="table caption-top mb-4" {columns} data={data.items} {params}>
             <caption>Payments</caption>
         </Trestable>
 
-        <Pagination
-            page={data.page}
-            pages={data.pages}
-            params={data.params}
-            useIcons={paginationIcons}
-            limit={data.limit}
-            limits={[5, 10, 50, 100, 200]}
-            {limitChanged}
-        />
+        <Pagination {pages} {page} {params} {useIcons} {limit} {limits} {limitChanged} />
 
         <div class="form-check mb-2">
             <input
                 class="form-check-input"
                 type="checkbox"
                 id="paginationIcons"
-                bind:checked={paginationIcons}
+                bind:checked={useIcons}
             />
             <label class="form-check-label" for="paginationIcons">Use icons for pagination</label>
         </div>
