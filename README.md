@@ -10,25 +10,37 @@ npm install trestable
 
 ## Usage
 
-### Define array of columns
+### Get data and define array of columns
 
-```ts
-const columns: Column<MyObj>[] = [
-    {
-        name: "Name",
-        property: "fullName",
-    },
-    {
-        name: "Status",
-        property: "status",
-        getValue: (d) => d.status ? "Active" : "Inactive",
-    },
-    {
-        name: "Items",
-        breakpoint: "md",
-        component: MyComponent,
-    },
-];
+```svelte
+<script lang="ts">
+    import type { PageData } from "./$types.js";
+    import { Pagination, Trestable, type Column } from "trestable";
+
+    // data comes from load function in page.ts
+    export let data: PageData;
+    $: pages = data.pages;
+    $: page = data.page;
+    $: params = data.params;
+    $: limit = data.limit;
+
+    const columns: Column<MyObj>[] = [
+        {
+            name: "Name",
+            property: "fullName",
+        },
+        {
+            name: "Status",
+            property: "status",
+            getValue: (d) => d.status ? "Active" : "Inactive",
+        },
+        {
+            name: "Items",
+            breakpoint: "md",
+            component: MyComponent,
+        },
+    ];
+</script>
 ```
 
 Custom components can be used for rendering, which must have a `record` prop which will be passed the record object.
@@ -38,10 +50,10 @@ If a breakpoint is defined (one of `sm`, `md`, `lg`, `xl`, `xxl`, or `xxxl`), th
 ### Render table
 
 ```svelte
-<Trestable {columns} {data} {params} />
+<Trestable {columns} data={data.data} {params} />
 ```
 
-A key/value object of query params must be passed in so Trestable can know which columns the table has been sorted by.
+A key/value object of query params must be passed for Trestable to know if/how the table has been sorted.
 
 ### Sorting
 
@@ -91,20 +103,4 @@ export async function load({ url }) {
 
     return sortAndPage(url.searchParams, data, 10);
 }
-```
-
-Then use the values in `page.svelte`:
-```svelte
-<script lang="ts">
-    import type { PageData } from "./$types.js";
-    import { Pagination, Trestable, type Column } from "trestable";
-
-    export let data: PageData;
-    $: pages = data.pages;
-    $: page = data.page;
-    $: params = data.params;
-    $: limit = data.limit;
-
-    // see above examples for how to render the <Trestable /> and <Pagination /> components
-</script>
 ```
