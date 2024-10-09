@@ -138,7 +138,7 @@
             params={data.params}
             useIcons={paginationIcons}
             limit={data.limit}
-            limits={[5, 25, 50, 100, 200]}
+            limits={[5, 10, 50, 100, 200]}
             {limitChanged}
         />
 
