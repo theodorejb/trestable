@@ -91,7 +91,8 @@ This value can be used in a `page.ts` load function to perform server-side or cl
 
 Trestable provides a `sortAndPage` function for simple client-side sorting and pagination.
 The function must be passed a `URLSearchParams` object, the data array, and the default number of items per page.
-It returns an object with the following properties: `pages`, `page`, `params`, `limit`, and `data`.
+It returns an object with `pages`, `page`, `params`, `limit`, `data`, and `error` properties.
+The `error` property is a blank string which can be overwritten to include an error message with the result.
 
 ```ts
 // page.ts
@@ -114,7 +115,7 @@ export async function load({ url }) {
         }
     }
 
-    let result = sortAndPage(url.searchParams, data, 10);
+    const result = sortAndPage(url.searchParams, data, 10);
     result.error = error;
     return result;
 }
