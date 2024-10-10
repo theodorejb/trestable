@@ -14,7 +14,9 @@
     $effect(() => {
         if (col.property) {
             let filteredParams = Object.fromEntries(
-                Object.entries(params).filter(([key]) => key !== "page" && !key.startsWith("sort[")),
+                Object.entries(params).filter(
+                    ([key]) => key !== "page" && !key.startsWith("sort["),
+                ),
             );
 
             let paramsObj = new URLSearchParams(filteredParams);

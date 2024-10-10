@@ -12,13 +12,7 @@
         params: { [key: string]: string };
     }
 
-    let {
-        columns,
-        maxBreakpoint,
-        record,
-        detailsClass,
-        params
-    }: Props = $props();
+    let { columns, maxBreakpoint, record, detailsClass, params }: Props = $props();
 
     let isOpen = $state(false);
 

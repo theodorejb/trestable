@@ -4,8 +4,6 @@
     import RespRow from "./RespRow.svelte";
     import ColHeadValue from "./ColHeadValue.svelte";
 
-    
-
     interface Props {
         class?: string;
         data: T[];
@@ -14,7 +12,7 @@
         tbodyClass?: string;
         detailsClass?: string;
         params?: { [key: string]: string };
-        children?: import('svelte').Snippet;
+        children?: import("svelte").Snippet;
     }
 
     let {
@@ -25,7 +23,7 @@
         tbodyClass = "",
         detailsClass = "table table-sm mb-0 no-bottom-border",
         params = {},
-        children
+        children,
     }: Props = $props();
 
     let maxBreakpoint = $derived(getMaxBreakpoint(columns));
