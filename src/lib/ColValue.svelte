@@ -2,12 +2,16 @@
     import { getValue } from "./functions.js";
     import type { Column } from "./types.js";
 
-    export let col: Column<T>;
-    export let record: T;
+    interface Props {
+        col: Column<T>;
+        record: T;
+    }
+
+    let { col, record }: Props = $props();
 </script>
 
 {#if col.component}
-    <svelte:component this={col.component} {record} />
+    <col.component {record} />
 {:else if col.getValue}
     {col.getValue(record)}
 {:else if col.property}
