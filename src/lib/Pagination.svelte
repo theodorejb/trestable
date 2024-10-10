@@ -1,7 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
-
     interface Props {
         pages: number;
         page: number;
@@ -19,7 +16,7 @@
 
     let {
         pages,
-        page = $bindable(),
+        page,
         limitChanged,
         params = {},
         label = "Table page navigation",
@@ -32,16 +29,14 @@
         limits = [10, 25, 50, 100, 200]
     }: Props = $props();
 
-    run(() => {
-        if (page > pages) {
-            page = pages;
-        }
-    });
-
     let allPages = $derived([...Array(pages).keys()].map((i) => i + 1));
     let pageArr: number[] = $state([]);
 
-    run(() => {
+    $effect(() => {
+        if (page > pages) {
+            page = pages;
+        }
+
         if (pages > 5) {
             let startPage = page - 3;
             let endPage = page + 2;
