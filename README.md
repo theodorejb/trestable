@@ -97,10 +97,25 @@ It returns an object with the following properties: `pages`, `page`, `params`, `
 // page.ts
 import { sortAndPage } from "trestable";
 
-export async function load({ url }) {
-    const data = await myCustomLoadFn();
-    // client-side filtering could also be done here
+let data: SomeType[] = [];
+let lastLoaded: number = 0;
 
-    return sortAndPage(url.searchParams, data, 10);
+export async function load({ url }) {
+    let error = "";
+    const now = new Date().getTime();
+
+    if (now - lastLoaded > 1000 * 60) {
+        // last loaded over a minute ago or not at all
+        try {
+            data = await myCustomLoadFn();
+            lastLoaded = now;
+        } catch (e: any) {
+            error = e.message;
+        }
+    }
+
+    let result = sortAndPage(url.searchParams, data, 10);
+    result.error = error;
+    return result;
 }
 ```
