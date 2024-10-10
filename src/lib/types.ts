@@ -1,4 +1,4 @@
-import type { ComponentType, SvelteComponent } from "svelte";
+import type { Component } from "svelte";
 
 export type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
@@ -12,13 +12,15 @@ type Leaves<T> = T extends object
 
 export interface BaseColumn {
     name: string;
-    component?: ComponentType<SvelteComponent>;
     breakpoint?: Breakpoint;
     thClass?: string;
     tdClass?: string;
 }
 
 export interface Column<T> extends BaseColumn {
+    component?: Component<{
+        record: T;
+    }>;
     property?: Leaves<T>;
     getValue?: (data: T) => string;
 }
