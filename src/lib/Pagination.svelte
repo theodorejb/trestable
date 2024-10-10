@@ -14,7 +14,7 @@
         useIcons?: boolean;
         limitLabel?: string;
         limit?: number;
-        limits?: any;
+        limits?: number[];
     }
 
     let {
