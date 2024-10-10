@@ -26,7 +26,7 @@
         useIcons = false,
         limitLabel = "Page size",
         limit = $bindable(25),
-        limits = [10, 25, 50, 100, 200]
+        limits = [10, 25, 50, 100, 200],
     }: Props = $props();
 
     let allPages = $derived([...Array(pages).keys()].map((i) => i + 1));
