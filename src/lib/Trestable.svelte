@@ -22,7 +22,7 @@
     <thead>
         <tr class={theadTrClass}>
             {#if maxBreakpoint}
-                <th class="d-{maxBreakpoint}-none" />
+                <th class="d-{maxBreakpoint}-none"></th>
             {/if}
             {#each columns as col}
                 <th class={getCellClass(col, true)}>

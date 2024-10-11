@@ -66,7 +66,7 @@ export function getValue<X>(property: string, obj: X): string | number | boolean
 export function sortAndPage<T>(params: URLSearchParams, data: T[], defaultLimit: number) {
     for (const p of params) {
         if (p[0].startsWith("sort[")) {
-            data.sort(getCompareFn(p[0], p[1]));
+            data = data.toSorted(getCompareFn(p[0], p[1]));
             break;
         }
     }
