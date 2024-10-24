@@ -4,21 +4,33 @@
     import RespRow from "./RespRow.svelte";
     import ColHeadValue from "./ColHeadValue.svelte";
 
-    let className = "trestable table";
-    export { className as class };
+    interface Props {
+        class?: string;
+        data: T[];
+        columns: Column<T>[];
+        theadTrClass?: string;
+        tbodyClass?: string;
+        detailsClass?: string;
+        params?: { [key: string]: string };
+        children?: import("svelte").Snippet;
+    }
 
-    export let data: T[];
-    export let columns: Column<T>[];
-    export let theadTrClass = "table-primary";
-    export let tbodyClass = "";
-    export let detailsClass = "table table-sm mb-0 no-bottom-border";
-    export let params: { [key: string]: string } = {};
+    let {
+        class: className = "trestable table",
+        data,
+        columns,
+        theadTrClass = "table-primary",
+        tbodyClass = "",
+        detailsClass = "table table-sm mb-0 no-bottom-border",
+        params = {},
+        children,
+    }: Props = $props();
 
-    $: maxBreakpoint = getMaxBreakpoint(columns);
+    let maxBreakpoint = $derived(getMaxBreakpoint(columns));
 </script>
 
 <table class={className}>
-    <slot />
+    {@render children?.()}
     <thead>
         <tr class={theadTrClass}>
             {#if maxBreakpoint}

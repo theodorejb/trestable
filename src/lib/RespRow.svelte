@@ -4,15 +4,19 @@
     import { getCellClass } from "./functions.js";
     import type { Column, Breakpoint } from "./types.js";
 
-    export let columns: Column<T>[];
-    export let maxBreakpoint: Breakpoint | undefined;
-    export let record: T;
-    export let detailsClass: string;
-    export let params: { [key: string]: string };
+    interface Props {
+        columns: Column<T>[];
+        maxBreakpoint: Breakpoint | undefined;
+        record: T;
+        detailsClass: string;
+        params: { [key: string]: string };
+    }
 
-    let isOpen = false;
+    let { columns, maxBreakpoint, record, detailsClass, params }: Props = $props();
 
-    $: toggleLabel = isOpen ? "Hide Details" : "Show Details";
+    let isOpen = $state(false);
+
+    let toggleLabel = $derived(isOpen ? "Hide Details" : "Show Details");
 </script>
 
 <tr>
@@ -22,7 +26,7 @@
                 class="btn btn-link p-0"
                 title={toggleLabel}
                 aria-label={toggleLabel}
-                on:click={() => (isOpen = !isOpen)}
+                onclick={() => (isOpen = !isOpen)}
             >
                 {#if isOpen}
                     <svg

@@ -1,42 +1,64 @@
 <script lang="ts">
-    export let pages: number;
-    export let page: number;
-    export let limitChanged: (limit: number) => void;
+    import { run } from "svelte/legacy";
 
-    export let params: { [key: string]: string } = {};
-    export let label = "Table page navigation";
-    export let paramName = "page";
-    export let prevName = "Previous";
-    export let nextName = "Next";
-    export let useIcons = false;
-    export let limitLabel = "Page size";
-    export let limit = 25;
-    export let limits = [10, 25, 50, 100, 200];
-
-    $: if (page > pages) {
-        page = pages;
+    interface Props {
+        pages: number;
+        page: number;
+        limitChanged: (limit: number) => void;
+        params?: { [key: string]: string };
+        label?: string;
+        paramName?: string;
+        prevName?: string;
+        nextName?: string;
+        useIcons?: boolean;
+        limitLabel?: string;
+        limit?: number;
+        limits?: any;
     }
 
-    $: allPages = [...Array(pages).keys()].map((i) => i + 1);
-    let pageArr: number[] = [];
+    let {
+        pages,
+        page = $bindable(),
+        limitChanged,
+        params = {},
+        label = "Table page navigation",
+        paramName = "page",
+        prevName = "Previous",
+        nextName = "Next",
+        useIcons = false,
+        limitLabel = "Page size",
+        limit = $bindable(25),
+        limits = [10, 25, 50, 100, 200],
+    }: Props = $props();
 
-    $: if (pages > 5) {
-        let startPage = page - 3;
-        let endPage = page + 2;
-
-        if (startPage < 0) {
-            endPage += 0 - startPage;
-            startPage = 0;
-        } else if (endPage >= pages) {
-            startPage -= endPage - pages;
+    run(() => {
+        if (page > pages) {
+            page = pages;
         }
+    });
 
-        pageArr = allPages.slice(startPage, endPage);
-        pageArr[0] = 1;
-        pageArr[pageArr.length - 1] = pages;
-    } else {
-        pageArr = allPages;
-    }
+    let allPages = $derived([...Array(pages).keys()].map((i) => i + 1));
+    let pageArr: number[] = $state([]);
+
+    run(() => {
+        if (pages > 5) {
+            let startPage = page - 3;
+            let endPage = page + 2;
+
+            if (startPage < 0) {
+                endPage += 0 - startPage;
+                startPage = 0;
+            } else if (endPage >= pages) {
+                startPage -= endPage - pages;
+            }
+
+            pageArr = allPages.slice(startPage, endPage);
+            pageArr[0] = 1;
+            pageArr[pageArr.length - 1] = pages;
+        } else {
+            pageArr = allPages;
+        }
+    });
 
     function getLink(page: number, params: { [key: string]: string }) {
         const search = new URLSearchParams(params);
@@ -110,7 +132,7 @@
                     aria-label={limitLabel}
                     class="form-select float-sm-end w-auto"
                     bind:value={limit}
-                    on:change={() => limitChanged(limit)}
+                    onchange={() => limitChanged(limit)}
                 >
                     <option value="" disabled>{limitLabel}</option>
                     {#each limits as limit}

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from "svelte/legacy";
+
     import type { Payment } from "./exampleData.js";
     import type { Column } from "$lib/types.js";
     import type { PageData } from "./$types.js";
@@ -7,11 +9,15 @@
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
 
-    export let data: PageData;
-    $: pages = data.pages;
-    $: page = data.page;
-    $: params = data.params;
-    $: limit = data.limit;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
+    let pages = $derived(data.pages);
+    let page = $derived(data.page);
+    let params = $derived(data.params);
+    let limit = $derived(data.limit);
 
     const allColumns: Column<Payment>[] = [
         {
@@ -64,15 +70,17 @@
     ];
 
     const limits = [5, 10, 50, 100, 200];
-    let useIcons = false;
-    let includeXxxlCol = false;
-    let columns: Column<Payment>[] = [];
+    let useIcons = $state(false);
+    let includeXxxlCol = $state(false);
+    let columns: Column<Payment>[] = $state([]);
 
-    $: if (includeXxxlCol) {
-        columns = allColumns;
-    } else {
-        columns = allColumns.filter((c) => c.breakpoint !== "xxxl");
-    }
+    run(() => {
+        if (includeXxxlCol) {
+            columns = allColumns;
+        } else {
+            columns = allColumns.filter((c) => c.breakpoint !== "xxxl");
+        }
+    });
 
     function formatUSD(amount: number): string {
         const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });

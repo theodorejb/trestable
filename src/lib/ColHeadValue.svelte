@@ -1,29 +1,39 @@
 <script lang="ts" generics="T">
+    import { run } from "svelte/legacy";
+
     import { getPropertyParam } from "./functions.js";
     import type { Column } from "./types.js";
 
-    export let col: Column<T>;
-    export let params: { [key: string]: string };
-    let sortLink = "";
-    let curSortVal = "";
-
-    $: if (col.property) {
-        let filteredParams = Object.fromEntries(
-            Object.entries(params).filter(([key]) => key !== "page" && !key.startsWith("sort[")),
-        );
-
-        let paramsObj = new URLSearchParams(filteredParams);
-        let param = "sort" + getPropertyParam(col.property);
-        curSortVal = params[param];
-
-        if (!curSortVal) {
-            paramsObj.set(param, "asc");
-        } else if (curSortVal === "asc") {
-            paramsObj.set(param, "desc");
-        }
-
-        sortLink = "?" + paramsObj.toString();
+    interface Props {
+        col: Column<T>;
+        params: { [key: string]: string };
     }
+
+    let { col, params }: Props = $props();
+    let sortLink = $state("");
+    let curSortVal = $state("");
+
+    run(() => {
+        if (col.property) {
+            let filteredParams = Object.fromEntries(
+                Object.entries(params).filter(
+                    ([key]) => key !== "page" && !key.startsWith("sort["),
+                ),
+            );
+
+            let paramsObj = new URLSearchParams(filteredParams);
+            let param = "sort" + getPropertyParam(col.property);
+            curSortVal = params[param];
+
+            if (!curSortVal) {
+                paramsObj.set(param, "asc");
+            } else if (curSortVal === "asc") {
+                paramsObj.set(param, "desc");
+            }
+
+            sortLink = "?" + paramsObj.toString();
+        }
+    });
 </script>
 
 {#if col.property}

@@ -1,7 +1,11 @@
 <script lang="ts">
     import type { Payment } from "./exampleData.js";
 
-    export let record: Payment;
+    interface Props {
+        record: Payment;
+    }
+
+    let { record }: Props = $props();
 </script>
 
 <span style="color: {record.lastEvent.color}">{record.lastEvent.status}</span>
