@@ -3,6 +3,7 @@
     import type { Column } from "./types.js";
     import RespRow from "./RespRow.svelte";
     import ColHeadValue from "./ColHeadValue.svelte";
+    import type { Snippet } from "svelte";
 
     interface Props {
         class?: string;
@@ -12,7 +13,7 @@
         tbodyClass?: string;
         detailsClass?: string;
         params?: { [key: string]: string };
-        children?: import("svelte").Snippet;
+        children?: Snippet;
     }
 
     let {

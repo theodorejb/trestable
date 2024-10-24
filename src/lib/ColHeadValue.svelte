@@ -1,6 +1,4 @@
 <script lang="ts" generics="T">
-    import { run } from "svelte/legacy";
-
     import { getPropertyParam } from "./functions.js";
     import type { Column } from "./types.js";
 
@@ -13,7 +11,7 @@
     let sortLink = $state("");
     let curSortVal = $state("");
 
-    run(() => {
+    $effect(() => {
         if (col.property) {
             let filteredParams = Object.fromEntries(
                 Object.entries(params).filter(

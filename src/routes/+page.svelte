@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import type { Payment } from "./exampleData.js";
     import type { Column } from "$lib/types.js";
     import type { PageData } from "./$types.js";
@@ -72,15 +70,9 @@
     const limits = [5, 10, 50, 100, 200];
     let useIcons = $state(false);
     let includeXxxlCol = $state(false);
-    let columns: Column<Payment>[] = $state([]);
-
-    run(() => {
-        if (includeXxxlCol) {
-            columns = allColumns;
-        } else {
-            columns = allColumns.filter((c) => c.breakpoint !== "xxxl");
-        }
-    });
+    let columns: Column<Payment>[] = $derived(
+        includeXxxlCol ? allColumns : allColumns.filter((c) => c.breakpoint !== "xxxl"),
+    );
 
     function formatUSD(amount: number): string {
         const formatter = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });

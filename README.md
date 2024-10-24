@@ -17,12 +17,15 @@ npm install trestable
     import type { PageData } from "./$types.js";
     import { Pagination, Trestable, type Column } from "trestable";
 
-    // data comes from load function in page.ts
-    export let data: PageData;
-    $: pages = data.pages;
-    $: page = data.page;
-    $: params = data.params;
-    $: limit = data.limit;
+    interface Props {
+        data: PageData; // comes from load function in page.ts
+    }
+
+    let { data }: Props = $props();
+    let pages = $derived(data.pages);
+    let page = $derived(data.page);
+    let params = $derived(data.params);
+    let limit = $derived(data.limit);
 
     const columns: Column<MyObj>[] = [
         {
