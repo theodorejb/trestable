@@ -16,7 +16,7 @@
 
     let {
         pages,
-        page,
+        page: reqPage,
         limitChanged,
         params = {},
         label = "Table page navigation",
@@ -29,14 +29,9 @@
         limits = [10, 25, 50, 100, 200],
     }: Props = $props();
 
+    let page = $derived(reqPage > pages ? pages : reqPage);
     let allPages = $derived([...Array(pages).keys()].map((i) => i + 1));
-    let pageArr: number[] = $state([]);
-
-    $effect(() => {
-        if (page > pages) {
-            page = pages;
-        }
-
+    let pageArr = $derived.by(() => {
         if (pages > 5) {
             let startPage = page - 3;
             let endPage = page + 2;
@@ -48,11 +43,12 @@
                 startPage -= endPage - pages;
             }
 
-            pageArr = allPages.slice(startPage, endPage);
-            pageArr[0] = 1;
-            pageArr[pageArr.length - 1] = pages;
+            let pageArray = allPages.slice(startPage, endPage);
+            pageArray[0] = 1;
+            pageArray[pageArray.length - 1] = pages;
+            return pageArray;
         } else {
-            pageArr = allPages;
+            return allPages;
         }
     });
 
