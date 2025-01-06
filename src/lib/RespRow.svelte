@@ -23,6 +23,7 @@
     {#if maxBreakpoint}
         <td class="d-{maxBreakpoint}-none px-0">
             <button
+                type="button"
                 class="btn btn-link p-0"
                 title={toggleLabel}
                 aria-label={toggleLabel}
