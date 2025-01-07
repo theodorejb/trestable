@@ -18,7 +18,7 @@
 
     let {
         class: className = "trestable table",
-        data,
+        data = $bindable(),
         columns,
         theadTrClass = "table-primary",
         tbodyClass = "",
@@ -26,6 +26,10 @@
         params = {},
         children,
     }: Props = $props();
+
+    function replace(index: number, record: T) {
+        data[index] = record;
+    }
 
     let maxBreakpoint = $derived(getMaxBreakpoint(columns));
 </script>
@@ -45,8 +49,8 @@
         </tr>
     </thead>
     <tbody class={tbodyClass}>
-        {#each data as record}
-            <RespRow {columns} {maxBreakpoint} {record} {detailsClass} {params} />
+        {#each data as record, index}
+            <RespRow {columns} {maxBreakpoint} {record} {index} {replace} {detailsClass} {params} />
         {/each}
     </tbody>
 </table>

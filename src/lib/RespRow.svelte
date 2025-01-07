@@ -8,15 +8,20 @@
         columns: Column<T>[];
         maxBreakpoint: Breakpoint | undefined;
         record: T;
+        index: number;
+        replace: (index: number, record: T) => void;
         detailsClass: string;
         params: { [key: string]: string };
     }
 
-    let { columns, maxBreakpoint, record, detailsClass, params }: Props = $props();
+    let { columns, maxBreakpoint, record, index, replace, detailsClass, params }: Props = $props();
 
     let isOpen = $state(false);
-
     let toggleLabel = $derived(isOpen ? "Hide Details" : "Show Details");
+
+    function updateRecord(record: T) {
+        replace(index, record);
+    }
 </script>
 
 <tr>
@@ -59,7 +64,7 @@
     {/if}
     {#each columns as col}
         <td class={getCellClass(col, false)}>
-            <ColValue {col} {record} />
+            <ColValue {col} {record} {updateRecord} />
         </td>
     {/each}
 </tr>
@@ -75,7 +80,7 @@
                                     <ColHeadValue {col} {params} />
                                 </th>
                                 <td class="{col.tdClass ?? ''} bg-transparent">
-                                    <ColValue {col} {record} />
+                                    <ColValue {col} {record} {updateRecord} />
                                 </td>
                             </tr>
                         {/if}

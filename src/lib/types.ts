@@ -20,6 +20,7 @@ export interface BaseColumn {
 export interface Column<T> extends BaseColumn {
     component?: Component<{
         record: T;
+        updateRecord: (record: T) => void;
     }>;
     property?: Leaves<T>;
     getValue?: (data: T) => string;

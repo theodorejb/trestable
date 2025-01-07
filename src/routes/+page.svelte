@@ -1,21 +1,21 @@
 <script lang="ts">
     import type { Payment } from "./exampleData.js";
     import type { Column } from "$lib/types.js";
-    import type { PageData } from "./$types.js";
     import { goto } from "$app/navigation";
     import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
 
-    interface Props {
-        data: PageData;
-    }
-
-    let { data }: Props = $props();
+    let { data } = $props();
     let pages = $derived(data.pages);
     let page = $derived(data.page);
     let params = $derived(data.params);
     let limit = $derived(data.limit);
+    let items = $state(data.items);
+
+    $effect(() => {
+        items = data.items;
+    });
 
     const allColumns: Column<Payment>[] = [
         {
@@ -133,7 +133,7 @@
     <div class="container-lg">
         <h2 class="mt-3">Demo</h2>
 
-        <Trestable class="table caption-top mb-4" {columns} data={data.items} {params}>
+        <Trestable class="table caption-top mb-4" {columns} bind:data={items} {params}>
             <caption>Payments</caption>
         </Trestable>
 
