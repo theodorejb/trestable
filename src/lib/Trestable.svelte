@@ -39,7 +39,7 @@
     <thead>
         <tr class={theadTrClass}>
             {#if maxBreakpoint}
-                <th class="d-{maxBreakpoint}-none"></th>
+                <th class="d-{maxBreakpoint}-none d-print-none"></th>
             {/if}
             {#each columns as col}
                 <th class={getCellClass(col, true)}>

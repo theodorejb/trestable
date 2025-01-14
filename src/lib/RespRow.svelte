@@ -26,7 +26,7 @@
 
 <tr>
     {#if maxBreakpoint}
-        <td class="d-{maxBreakpoint}-none px-0">
+        <td class="d-{maxBreakpoint}-none d-print-none px-0">
             <button
                 type="button"
                 class="btn btn-link p-0"
