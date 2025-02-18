@@ -1,9 +1,9 @@
 <script lang="ts" generics="T">
     import { getCellClass, getMaxBreakpoint } from "./functions.js";
-    import type { Column } from "./types.js";
-    import RespRow from "./RespRow.svelte";
+    import type { CalcColumn, Column, GroupHeaderCmp, IndexedRecord } from "./types.js";
     import ColHeadValue from "./ColHeadValue.svelte";
     import type { Snippet } from "svelte";
+    import GroupSet from "./GroupSet.svelte";
 
     interface Props {
         class?: string;
@@ -12,6 +12,9 @@
         theadTrClass?: string;
         tbodyClass?: string;
         detailsClass?: string;
+        groupBy?: (record: T) => string | number;
+        groupHeader?: GroupHeaderCmp<T>;
+        calcRowClass?: (calcColumns: CalcColumn<T>[]) => string;
         params?: { [key: string]: string };
         children?: Snippet;
     }
@@ -23,6 +26,9 @@
         theadTrClass = "table-primary",
         tbodyClass = "",
         detailsClass = "table table-sm mb-0 no-bottom-border",
+        groupBy,
+        groupHeader,
+        calcRowClass,
         params = {},
         children,
     }: Props = $props();
@@ -32,6 +38,27 @@
     }
 
     let maxBreakpoint = $derived(getMaxBreakpoint(columns));
+
+    let groupedData = $derived.by(() => {
+        const map = new Map<string | number, IndexedRecord<T>[]>();
+
+        // preserve original index to allow replacing records
+        for (const [index, record] of data.entries()) {
+            const key = groupBy ? groupBy(record) : "all";
+            const existing = map.get(key);
+            const iRecord = { index, record };
+
+            if (existing) {
+                existing.push(iRecord);
+            } else {
+                map.set(key, [iRecord]);
+            }
+        }
+
+        return map;
+    });
+
+    let hasBottomCalc = $derived(columns.some((c) => !!c.bottomCalc));
 </script>
 
 <table class={className}>
@@ -49,8 +76,19 @@
         </tr>
     </thead>
     <tbody class={tbodyClass}>
-        {#each data as record, index}
-            <RespRow {columns} {maxBreakpoint} {record} {index} {replace} {detailsClass} {params} />
+        {#each groupedData as [key, iRecords]}
+            <GroupSet
+                {columns}
+                {maxBreakpoint}
+                {key}
+                {iRecords}
+                {hasBottomCalc}
+                {replace}
+                {detailsClass}
+                {groupHeader}
+                {calcRowClass}
+                {params}
+            />
         {/each}
     </tbody>
 </table>

@@ -24,4 +24,21 @@ export interface Column<T> extends BaseColumn {
     }>;
     property?: Leaves<T>;
     getValue?: (data: T) => string;
+    bottomCalc?: (records: T[]) => number;
+    calcFormatter?: (value: number) => string;
 }
+
+export interface CalcColumn<T> {
+    column: Column<T>;
+    value: number | null;
+}
+
+export interface IndexedRecord<T> {
+    index: number;
+    record: T;
+}
+
+export type GroupHeaderCmp<T> = Component<{
+    key: string | number;
+    records: T[];
+}>;

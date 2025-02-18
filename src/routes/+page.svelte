@@ -1,10 +1,11 @@
 <script lang="ts">
     import type { Payment } from "./exampleData.js";
-    import type { Column } from "$lib/types.js";
+    import type { CalcColumn, Column } from "$lib/types.js";
     import { goto } from "$app/navigation";
     import Pagination from "$lib/Pagination.svelte";
     import Trestable from "$lib/Trestable.svelte";
     import PaymentStatus from "./PaymentStatus.svelte";
+    import GroupHeader from "./GroupHeader.svelte";
 
     let { data } = $props();
     let pages = $derived(data.pages);
@@ -17,7 +18,12 @@
         items = data.items;
     });
 
-    const allColumns: Column<Payment>[] = [
+    let group = $state(false);
+    let bottomCalc = $state(false);
+    let useIcons = $state(false);
+    let includeXxxlCol = $state(false);
+
+    const allColumns: Column<Payment>[] = $derived([
         {
             name: "ID",
             property: "id",
@@ -36,6 +42,8 @@
             name: "Amount",
             property: "amount",
             getValue: (d) => formatUSD(d.amount),
+            bottomCalc: bottomCalc ? bottomCalcFn : undefined,
+            calcFormatter: formatUSD,
             breakpoint: "sm",
         },
         {
@@ -65,11 +73,10 @@
             property: "invoiceNum",
             breakpoint: "xxl",
         },
-    ];
+    ]);
 
     const limits = [5, 10, 50, 100, 200];
-    let useIcons = $state(false);
-    let includeXxxlCol = $state(false);
+
     let columns: Column<Payment>[] = $derived(
         includeXxxlCol ? allColumns : allColumns.filter((c) => c.breakpoint !== "xxxl"),
     );
@@ -92,6 +99,26 @@
         search.set("limit", limit.toString());
         search.delete("page");
         goto("?" + search.toString());
+    }
+
+    let groupBy = $derived(group ? groupByFn : undefined);
+
+    function groupByFn(record: Payment) {
+        return record.amount < 1000 ? "< $1000" : ">= $1000";
+    }
+
+    function bottomCalcFn(records: Payment[]) {
+        return records.reduce((prev, cur) => prev + cur.amount, 0);
+    }
+
+    function calcRowClass(calcColumns: CalcColumn<Payment>[]) {
+        for (let col of calcColumns) {
+            if (col.column.property === "amount" && col.value !== null && col.value > 2000) {
+                return "table-success";
+            }
+        }
+
+        return "table-danger";
     }
 </script>
 
@@ -133,13 +160,39 @@
     <div class="container-lg">
         <h2 class="mt-3">Demo</h2>
 
-        <Trestable class="table caption-top mb-4" {columns} bind:data={items} {params}>
+        <Trestable
+            class="table caption-top mb-4"
+            {columns}
+            bind:data={items}
+            {params}
+            {groupBy}
+            {calcRowClass}
+            groupHeader={group ? GroupHeader : undefined}
+        >
             <caption>Payments</caption>
         </Trestable>
 
         <Pagination {pages} {page} {params} {useIcons} {limit} {limits} {limitChanged} />
 
-        <div class="form-check mb-2">
+        <div class="form-check mb-1">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="enableGrouping"
+                bind:checked={group}
+            />
+            <label class="form-check-label" for="enableGrouping">Custom grouping function</label>
+        </div>
+        <div class="form-check mb-1">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="bottomCalc"
+                bind:checked={bottomCalc}
+            />
+            <label class="form-check-label" for="bottomCalc">Custom calculation row</label>
+        </div>
+        <div class="form-check mb-1">
             <input
                 class="form-check-input"
                 type="checkbox"
