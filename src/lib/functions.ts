@@ -63,14 +63,18 @@ export function getValue<X>(property: string, obj: X): string | number | boolean
     return val;
 }
 
-export function sortAndPage<T>(params: URLSearchParams, data: T[], defaultLimit: number) {
+export function sortViaParams<T>(params: URLSearchParams, data: T[]) {
     for (const p of params) {
         if (p[0].startsWith("sort[")) {
-            data = data.toSorted(getCompareFn(p[0], p[1]));
-            break;
+            return data.toSorted(getCompareFn(p[0], p[1]));
         }
     }
 
+    return data;
+}
+
+export function sortAndPage<T>(params: URLSearchParams, data: T[], defaultLimit: number) {
+    data = sortViaParams(params, data);
     const page = +(params.get("page") ?? 1);
     const limit = +(params.get("limit") ?? defaultLimit);
 
