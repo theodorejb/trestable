@@ -43,16 +43,24 @@
         const map = new Map<string | number, IndexedRecord<T>[]>();
 
         // preserve original index to allow replacing records
-        for (const [index, record] of data.entries()) {
-            const key = groupBy ? groupBy(record) : "all";
-            const existing = map.get(key);
-            const iRecord = { index, record };
+        if (groupBy) {
+            for (const [index, record] of data.entries()) {
+                const key = groupBy(record);
+                const existing = map.get(key);
+                const iRecord = { index, record };
 
-            if (existing) {
-                existing.push(iRecord);
-            } else {
-                map.set(key, [iRecord]);
+                if (existing) {
+                    existing.push(iRecord);
+                } else {
+                    map.set(key, [iRecord]);
+                }
             }
+        } else {
+            const iRecords = [];
+            for (const [index, record] of data.entries()) {
+                iRecords.push({ index, record });
+            }
+            map.set("All", iRecords);
         }
 
         return map;
