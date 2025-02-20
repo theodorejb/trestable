@@ -75,7 +75,7 @@
         },
     ]);
 
-    const limits = [5, 10, 50, 100, 200];
+    const limits = [5, 10, 50, 100, 200, 1000];
 
     let columns: Column<Payment>[] = $derived(
         includeXxxlCol ? allColumns : allColumns.filter((c) => c.breakpoint !== "xxxl"),
@@ -101,10 +101,36 @@
         goto("?" + search.toString());
     }
 
-    let groupBy = $derived(group ? groupByFn : undefined);
-
     function groupByFn(record: Payment) {
-        return record.amount < 1000 ? "< $1000" : ">= $1000";
+        if (record.amount < 1000) {
+            return "< $1000";
+        }
+        if (record.amount < 2000) {
+            return "$1k - $2k";
+        }
+        if (record.amount < 3000) {
+            return "$2k - $3k";
+        }
+        if (record.amount < 4000) {
+            return "$3k - $4k";
+        }
+        if (record.amount < 5000) {
+            return "$4k - $5k";
+        }
+        if (record.amount < 6000) {
+            return "$5k - $6k";
+        }
+        if (record.amount < 7000) {
+            return "$6k - $7k";
+        }
+        if (record.amount < 8000) {
+            return "$7k - $8k";
+        }
+        if (record.amount < 9000) {
+            return "$8k - $9k";
+        }
+
+        return ">= $9000";
     }
 
     function bottomCalcFn(records: Payment[]) {
@@ -165,9 +191,9 @@
             {columns}
             bind:data={items}
             {params}
-            {groupBy}
-            {calcRowClass}
+            groupBy={group ? groupByFn : undefined}
             groupHeader={group ? GroupHeader : undefined}
+            {calcRowClass}
         >
             <caption>Payments</caption>
         </Trestable>
