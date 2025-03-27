@@ -29,4 +29,9 @@ export default tseslint.config(
             },
         },
     },
+    {
+        rules: {
+            "svelte/require-each-key": "off",
+        },
+    },
 );
