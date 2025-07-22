@@ -40,6 +40,7 @@
     let maxBreakpoint = $derived(getMaxBreakpoint(columns));
 
     let groupedData = $derived.by(() => {
+        // eslint-disable-next-line svelte/prefer-svelte-reactivity
         const map = new Map<string | number, IndexedRecord<T>[]>();
 
         // preserve original index to allow replacing records

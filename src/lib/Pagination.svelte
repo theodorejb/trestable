@@ -53,6 +53,7 @@
     });
 
     function getLink(page: number, params: { [key: string]: string }) {
+        // eslint-disable-next-line svelte/prefer-svelte-reactivity
         const search = new URLSearchParams(params);
         search.set(paramName, page.toString());
         return "?" + search.toString();

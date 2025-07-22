@@ -12,6 +12,7 @@
     let page = $derived(data.page);
     let params = $derived(data.params);
     let limit = $derived(data.limit);
+    // eslint-disable-next-line svelte/prefer-writable-derived
     let items = $state(data.items);
 
     $effect(() => {
@@ -95,6 +96,7 @@
     }
 
     function limitChanged(limit: number) {
+        // eslint-disable-next-line svelte/prefer-svelte-reactivity
         const search = new URLSearchParams(params);
         search.set("limit", limit.toString());
         search.delete("page");

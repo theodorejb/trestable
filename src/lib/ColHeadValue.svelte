@@ -19,6 +19,7 @@
                 ),
             );
 
+            // eslint-disable-next-line svelte/prefer-svelte-reactivity
             let paramsObj = new URLSearchParams(filteredParams);
             let param = "sort" + getPropertyParam(col.property);
             curSortVal = params[param];
