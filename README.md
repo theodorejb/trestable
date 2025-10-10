@@ -98,30 +98,32 @@ It returns an object with `pages`, `page`, `params`, `limit`, `items`, and `erro
 The `error` property is a blank string which can be overwritten to include an error message with the result.
 
 ```ts
-// page.ts
+// +layout.ts
+import { error } from "@sveltejs/kit";
+import { getMyData } from "$lib/api/MyData.js";
+
+export async function load() {
+    try {
+        return {
+            data: await getMyData(),
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+        error(e.response.status ?? 500, e.message);
+    }
+}
+```
+
+```ts
+// +page.ts
 import { sortAndPage } from "trestable";
 
-let allData: SomeType[] = [];
-let lastLoaded: number = 0;
-
-export async function load({ url }) {
-    let error = "";
-    const now = new Date().getTime();
-
-    if (now - lastLoaded > 1000 * 60) {
-        // last loaded over a minute ago or not at all
-        try {
-            allData = await myCustomLoadFn();
-            lastLoaded = now;
-        } catch (e: any) {
-            error = e.message;
-        }
-    }
+export async function load({ url, parent }) {
+    // get data in parent layout to avoid unnecessary API requests when sorting
+    let { data } = await parent();
 
     // data could be optionally filtered here as well
 
-    const result = sortAndPage(url.searchParams, allData, 10);
-    result.error = error;
-    return result;
+    return sortAndPage(url.searchParams, data, 10);
 }
 ```
