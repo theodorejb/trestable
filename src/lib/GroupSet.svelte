@@ -14,6 +14,10 @@
         groupHeader: GroupHeaderCmp<T> | undefined;
         calcRowClass: ((calcColumns: CalcColumn<T>[]) => string) | undefined;
         params: { [key: string]: string };
+        groupCollapseLabel: string;
+        groupExpandLabel: string;
+        rowCollapseLabel: string;
+        rowExpandLabel: string;
     }
 
     let {
@@ -27,10 +31,14 @@
         groupHeader: GroupHeader,
         calcRowClass,
         params,
+        groupCollapseLabel,
+        groupExpandLabel,
+        rowCollapseLabel,
+        rowExpandLabel,
     }: Props = $props();
 
     let isOpen = $state(true);
-    let toggleLabel = $derived(isOpen ? "Collapse Group" : "Expand Group");
+    let toggleLabel = $derived(isOpen ? groupCollapseLabel : groupExpandLabel);
     let records = $derived(iRecords.map((ir) => ir.record));
 </script>
 
@@ -86,6 +94,8 @@
             {replace}
             {detailsClass}
             {params}
+            collapseLabel={rowCollapseLabel}
+            expandLabel={rowExpandLabel}
         />
     {/each}
 {/if}

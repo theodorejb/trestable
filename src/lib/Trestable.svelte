@@ -17,6 +17,10 @@
         calcRowClass?: (calcColumns: CalcColumn<T>[]) => string;
         params?: { [key: string]: string };
         children?: Snippet;
+        groupCollapseLabel?: string;
+        groupExpandLabel?: string;
+        rowCollapseLabel?: string;
+        rowExpandLabel?: string;
     }
 
     let {
@@ -31,6 +35,10 @@
         calcRowClass,
         params = {},
         children,
+        groupCollapseLabel = "Collapse Group",
+        groupExpandLabel = "Expand Group",
+        rowCollapseLabel = "Hide Details",
+        rowExpandLabel = "Show Details",
     }: Props = $props();
 
     function replace(index: number, record: T) {
@@ -89,6 +97,10 @@
                 {groupHeader}
                 {calcRowClass}
                 {params}
+                {groupCollapseLabel}
+                {groupExpandLabel}
+                {rowCollapseLabel}
+                {rowExpandLabel}
             />
         {/each}
     </tbody>

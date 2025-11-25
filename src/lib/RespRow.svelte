@@ -12,12 +12,24 @@
         replace: (index: number, record: T) => void;
         detailsClass: string;
         params: { [key: string]: string };
+        collapseLabel: string;
+        expandLabel: string;
     }
 
-    let { columns, maxBreakpoint, record, index, replace, detailsClass, params }: Props = $props();
+    let {
+        columns,
+        maxBreakpoint,
+        record,
+        index,
+        replace,
+        detailsClass,
+        params,
+        collapseLabel,
+        expandLabel,
+    }: Props = $props();
 
     let isOpen = $state(false);
-    let toggleLabel = $derived(isOpen ? "Hide Details" : "Show Details");
+    let toggleLabel = $derived(isOpen ? collapseLabel : expandLabel);
 
     function updateRecord(record: T) {
         replace(index, record);
