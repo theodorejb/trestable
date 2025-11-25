@@ -14,14 +14,9 @@ npm install trestable
 
 ```svelte
 <script lang="ts">
-    import type { PageData } from "./$types.js";
     import { Pagination, Trestable, type Column } from "trestable";
 
-    interface Props {
-        data: PageData; // comes from load function in page.ts
-    }
-
-    let { data }: Props = $props();
+    let { data } = $props(); // from load function in page.ts
     let pages = $derived(data.pages);
     let page = $derived(data.page);
     let params = $derived(data.params);
@@ -63,6 +58,21 @@ A key/value object of query params must be passed for Trestable to know if/how t
 If a Column object has a `property` value, the column header will be a clickable link to the current page with a `sort[property]=asc` query parameter. Clicking the header a second time will change the sort direction to `desc`, and clicking it a third time will remove the sort parameter.
 
 The query parameter can be used in a `page.ts` load function to perform server-side or client-side sorting.
+
+### Row grouping
+
+To group rows, set the `groupBy` Trestable prop to a function which takes a single `record` argument,
+and returns any string or number as a group identifier based on the record properties.
+
+To override the default group header, set the `groupHeader` prop to a component which takes `key` (the group identifier) and `records` props.
+
+### Calculation rows
+
+To output a row at the bottom of the table (or below each group, if `groupBy` is set), specify a `bottomCalc` function on the desired columns.
+This function must take a single `records` argument and return a number. To customize the formatting of the displayed calculation,
+set a `calcFormatter` function on the column, which will be passed the calculated number and must return a string.
+
+Note that row grouping and calculation rows only include the data passed to Trestable, so probably shouldn't be used in concert with pagination.
 
 ### Pagination
 
