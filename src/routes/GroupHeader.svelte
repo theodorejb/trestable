@@ -7,6 +7,16 @@
     }
 
     let { key, records }: Props = $props();
+    let cheap = $derived(key === "< $1000");
 </script>
 
-<b>{key}</b> ({records.length} items)
+<b class={cheap ? "text-success" : "text-info"}>
+    {#if cheap}
+        Cheap
+    {:else}
+        Expensive
+    {/if}
+    items
+</b>
+
+({records.length})

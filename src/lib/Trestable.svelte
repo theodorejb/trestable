@@ -4,6 +4,7 @@
     import ColHeadValue from "./ColHeadValue.svelte";
     import type { Snippet } from "svelte";
     import GroupSet from "./GroupSet.svelte";
+    import DefaultGroupHeader from "./DefaultGroupHeader.svelte";
 
     interface Props {
         class?: string;
@@ -31,7 +32,7 @@
         tbodyClass = "",
         detailsClass = "table table-sm mb-0 no-bottom-border",
         groupBy,
-        groupHeader,
+        groupHeader = DefaultGroupHeader,
         calcRowClass,
         params = {},
         children,
@@ -94,7 +95,7 @@
                 {hasBottomCalc}
                 {replace}
                 {detailsClass}
-                {groupHeader}
+                groupHeader={groupBy ? groupHeader : undefined}
                 {calcRowClass}
                 {params}
                 {groupCollapseLabel}

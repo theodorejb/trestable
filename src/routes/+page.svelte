@@ -20,6 +20,7 @@
     });
 
     let group = $state(false);
+    let customGroupHeader = $state(false);
     let bottomCalc = $state(false);
     let useIcons = $state(false);
     let includeXxxlCol = $state(false);
@@ -102,8 +103,6 @@
         goto("?" + search.toString());
     }
 
-    let groupBy = $derived(group ? groupByFn : undefined);
-
     function groupByFn(record: Payment) {
         return record.amount < 1000 ? "< $1000" : ">= $1000";
     }
@@ -166,9 +165,9 @@
             {columns}
             bind:data={items}
             {params}
-            {groupBy}
+            groupBy={group ? groupByFn : undefined}
             {calcRowClass}
-            groupHeader={group ? GroupHeader : undefined}
+            groupHeader={customGroupHeader ? GroupHeader : undefined}
         >
             <caption>Payments</caption>
         </Trestable>
@@ -184,6 +183,17 @@
             />
             <label class="form-check-label" for="enableGrouping">Custom grouping function</label>
         </div>
+        {#if group}
+            <div class="form-check mb-1">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="customGroupHeader"
+                    bind:checked={customGroupHeader}
+                />
+                <label class="form-check-label" for="customGroupHeader">Custom group header</label>
+            </div>
+        {/if}
         <div class="form-check mb-1">
             <input
                 class="form-check-input"
