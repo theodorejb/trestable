@@ -45,7 +45,6 @@
             getValue: (d) => formatUSD(d.amount),
             bottomCalc: bottomCalc ? bottomCalcFn : undefined,
             calcFormatter: formatUSD,
-            breakpoint: "sm",
         },
         {
             name: "Status",
@@ -56,7 +55,7 @@
             name: "Latest Activity",
             property: "lastEvent.date",
             getValue: (d) => formatDateTime(new Date(d.lastEvent.date)),
-            breakpoint: "md",
+            breakpoint: "sm",
             thClass: "text-nowrap",
         },
         {
